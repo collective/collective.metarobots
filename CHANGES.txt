@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1 (unreleased)
+1.1 (2012-09-03)
 ----------------
 
 - Add a controlpanel because of https://dev.plone.org/ticket/13158
