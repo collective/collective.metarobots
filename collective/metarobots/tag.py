@@ -72,7 +72,8 @@ class Tag(common.ViewletBase):
     @view.memoize
     def content_contextual(self):
         content = list(self.settings.content)
-        content.remove("unavailable_after_end")
+        if "unavailable_after_end" in content:
+            content.remove("unavailable_after_end")
         expiration = self.context.getExpirationDate()
         if expiration:
             dt_formated = expiration.strftime('%d %b %Y %H:%M:%S %Z')
@@ -85,7 +86,8 @@ class Tag(common.ViewletBase):
     @view.memoize_contextless
     def content_cached(self):
         content = list(self.settings.content)
-        content.remove("unavailable_after_end")
+        if "unavailable_after_end" in content:
+            content.remove("unavailable_after_end")
         return u", ".join(content)
 
 

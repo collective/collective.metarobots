@@ -4,7 +4,7 @@ Changelog
 1.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Fix issues when "unavailable_after_end" not in value
 
 
 1.1 (2012-09-03)
