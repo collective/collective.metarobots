@@ -79,3 +79,19 @@ class Tag(common.ViewletBase):
     @view.memoize_contextless
     def content_cached(self):
         return u", ".join(self.settings.content)
+
+
+from plone.app.registry.browser.controlpanel import RegistryEditForm
+from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
+
+from plone.z3cform import layout
+from z3c.form import form
+
+
+
+class ControlPanelForm(RegistryEditForm):
+    form.extends(RegistryEditForm)
+    schema = TagSettings
+
+ControlPanelView = layout.wrap_form(ControlPanelForm, ControlPanelFormWrapper)
+ControlPanelView.label = _(u"Meta tag Robots settings")

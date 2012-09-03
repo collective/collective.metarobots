@@ -11,6 +11,8 @@ More information on this meta:
 
 This addon has been created to not index content from staging webiste.
 
+Warning: this addon suffer from a Plone bug: https://dev.plone.org/ticket/13158
+
 Use cases
 =========
 
