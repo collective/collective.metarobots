@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.2 (unreleased)
-----------------
+1.1.1 (2012-09-03)
+------------------
 
 - Fix issues when "unavailable_after_end" not in value
 
