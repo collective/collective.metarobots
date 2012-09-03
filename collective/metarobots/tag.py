@@ -3,10 +3,15 @@ from zope import schema
 from zope import interface
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 
+
 from plone.app.layout.viewlets import common
+from plone.app.registry.browser.controlpanel import RegistryEditForm
+from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.memoize import view
 from plone.registry.interfaces import IRegistry
 from plone.registry.field import Tuple
+from plone.z3cform import layout
+from z3c.form import form
 
 from collective.metarobots import _
 
@@ -46,7 +51,8 @@ class Tag(common.ViewletBase):
             self.settings = registry.forInterface(TagSettings)
             content = self.settings.content
 
-            if content and "unavailable_after_end" in content:
+            if content and "unavailable_after_end" in content and \
+               hasattr(self.context, 'getExpirationDate'):
                 self.contextual = True
 
     def render(self):
@@ -78,15 +84,9 @@ class Tag(common.ViewletBase):
 
     @view.memoize_contextless
     def content_cached(self):
-        return u", ".join(self.settings.content)
-
-
-from plone.app.registry.browser.controlpanel import RegistryEditForm
-from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
-
-from plone.z3cform import layout
-from z3c.form import form
-
+        content = list(self.settings.content)
+        content.remove("unavailable_after_end")
+        return u", ".join(content)
 
 
 class ControlPanelForm(RegistryEditForm):

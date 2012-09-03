@@ -8,6 +8,10 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="collective.metarobots">
 
+
+  <include package="Products.CMFCore" file="permissions.zcml" />
+  <include file="upgrades.zcml" />
+
   <i18n:registerTranslations directory="locales" />
 
   <genericsetup:registerProfile
@@ -17,7 +21,6 @@
       description='Extension profile'
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
-  <include file="upgrades.zcml" />
 
   <interface
       interface=".layer.Layer"
@@ -32,5 +35,13 @@
       layer=".layer.Layer"
       permission="zope2.View"
       />
+
+  <browser:page
+      name="metatagrobots-controlpanel"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      permission="cmf.ManagePortal"
+      class=".tag.ControlPanelView"
+      layer=".layer.Layer"
+    />
 
 </configure>
