@@ -41,29 +41,38 @@ class Tag(common.ViewletBase):
         super(Tag, self).update()
         registry = component.getUtility(IRegistry)
         self.contextual = False
+
         if registry:
             self.settings = registry.forInterface(TagSettings)
             content = self.settings.content
+
             if content and "unavailable_after_end" in content:
                 self.contextual = True
 
     def render(self):
         self.update()
-        if self.settings.content:
+        if self.settings.content and self.content():
             return self.index()
 
         return u""
 
+
     def content(self):
-        if not self.contextual:
+        if self.contextual:
+            return self.content_contextual()
+        else:
             return self.content_cached()
 
+    @view.memoize
+    def content_contextual(self):
         content = list(self.settings.content)
-        if "unavailable_after_end" in content:
-            dt = self.content.end()
-            format = '%d %b %Y %H:%M:%S %Z'
-            content.remove("unavailable_after_end")
-            content.append("unavailable_after: %s" % end.strftime(format))
+        content.remove("unavailable_after_end")
+        expiration = self.context.getExpirationDate()
+        if expiration:
+            dt_formated = expiration.strftime('%d %b %Y %H:%M:%S %Z')
+            value = "unavailable_after: %s" % formated
+            value = value.strip()
+            content.append(value)
 
         return u", ".join(content)
 
